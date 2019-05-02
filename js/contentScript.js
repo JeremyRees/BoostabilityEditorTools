@@ -2,6 +2,7 @@
 $(document).ready(function() {
 });
 
+// May God have mercy on my soul for writing such nasty code; I'm working with what I've got.
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     var script = document.createElement('script');
     script.textContent = `$('#cke_content').closest('.form-group').parent().find('img[alt="'+${request.imgAlt}+'"]').click().mouseover()`;
