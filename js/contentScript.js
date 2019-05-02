@@ -10,6 +10,12 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     script.remove();
 
     $('.cke_editor_content').eq(1).find('iframe').contents().find('body').html('<p>'+request.review+'</p>');
+    setTimeout(function() {
+        $('.cke_editor_content').eq(1).find('iframe').contents().find('body').focus();
+        setTimeout(function() {
+            $('#cke_content').find('iframe').contents().find('body').focus();
+        }, 50);
+    }, 50);
 
     sendResponse({success:1});
 });
