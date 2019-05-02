@@ -1,0 +1,44 @@
+{
+    "manifest_version": 2,
+
+    "name": "Boostability Utilities",
+    "description": "Improve article review throughput by automating part of the process.",
+    "version": "0.1",
+    "minimum_chrome_version": "57",
+
+    "icons": {
+        "16": "img/boost16.png",
+        "48": "img/boost48.png",
+        "128": "img/boost128.png"
+    },
+    "browser_action": {
+        "default_icon": {
+            "16": "img/boost16.png",
+            "48": "img/boost48.png",
+            "128": "img/boost128.png"
+        },
+        "default_popup": "html/popup.html",
+        "default_title": "Boostability Utilities"
+    },
+    "options_page": "html/settings.html",
+
+    "permissions": [
+        "tabs",
+        "activeTab",
+        "*://launchpad.boostability.com/*"
+    ],
+    "background": {
+        "scripts": ["js/eventPage.js"]
+    },
+    "commands": {
+        "_execute_browser_action": {
+            "suggested_key": {
+                "windows": "Ctrl+Shift+A",
+                "mac": "Command+Shift+A",
+                "chromeos": "Ctrl+Shift+A",
+                "linux": "Ctrl+Shift+A"
+            },
+            "description": "Open review code dialog window"
+        }
+    }
+}
