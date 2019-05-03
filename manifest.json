@@ -3,7 +3,7 @@
 
     "name": "Boostability Utilities",
     "description": "Improve article review throughput by automating part of the process.",
-    "version": "0.1.2",
+    "version": "0.2",
     "minimum_chrome_version": "57",
 
     "icons": {
@@ -38,7 +38,16 @@
                 "chromeos": "Ctrl+Shift+A",
                 "linux": "Ctrl+Shift+A"
             },
-            "description": "Open review code dialog window"
+            "description": "Open review code dialog window."
+        },
+        "toggle-timer": {
+            "suggested_key": {
+                "windows": "Ctrl+Shift+S",
+                "mac": "Command+Shift+S",
+                "chromeos": "Ctrl+Shift+S",
+                "linux": "Ctrl+Shift+S"
+            },
+            "description": "Play or pause the task timer."
         }
     }
 }

@@ -1,3 +1,5 @@
+// Review message construction
+//////////////////////////////
 var THREE_STAR_REVIEW_BASE = "Thank you for your contribution. Your article has been accepted at 3 stars. For higher ratings in the future, please focus on improving your ";
 var THREE_STAR_REVIEW_ADD_ONE = "examples";
 var THREE_STAR_REVIEW_ADD_TWO = "flow";
@@ -67,8 +69,8 @@ function fiveStarReview() {
     return review;
 }
 
-// -----------------------
-//////////////////////////
+// Review code interpretation
+/////////////////////////////
 function inputReview(input) {
     if (!validateInput(input)) return;
 
@@ -137,3 +139,25 @@ function validateInput(input) {
     }
     return true;
 }
+
+// Keyboard shortcuts
+/////////////////////
+chrome.commands.onCommand.addListener(function(command) {
+    chrome.tabs.executeScript({
+        file: 'js/jquery.min.js'
+    });
+    chrome.tabs.executeScript({
+        file: 'js/contentScript.js'
+    });
+    switch(command) {
+        case 'toggle-timer':
+            chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                chrome.tabs.sendMessage(tabs[0].id, {
+                    command: 'toggle-timer'
+                });
+            });
+            break;
+        default:
+            break;
+    }
+});
