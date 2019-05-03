@@ -3,7 +3,7 @@
 
     "name": "Boostability Utilities",
     "description": "Improve article review throughput by automating part of the process.",
-    "version": "0.2.1",
+    "version": "0.3",
     "minimum_chrome_version": "57",
 
     "icons": {
@@ -48,6 +48,15 @@
                 "linux": "Ctrl+Shift+S"
             },
             "description": "Play or pause the task timer."
+        },
+        "insert-link": {
+            "suggested_key": {
+                "windows": "Ctrl+Shift+Z",
+                "mac": "Command+Shift+Z",
+                "chromeos": "Ctrl+Shift+Z",
+                "linux": "Ctrl+Shift+Z"
+            },
+            "description": "Insert a link to the client's site on the highlighted text."
         }
     }
 }

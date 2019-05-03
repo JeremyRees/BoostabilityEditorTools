@@ -8,6 +8,21 @@ if (!window.init) {
         $('.help-block > button').click();
     }
 
+    function insertLink() {
+        var targetAddress = $('strong:contains("Customer URL")').parent().find('span.externalLink').html();
+
+        $('#cke_59').get(0).click();
+        setTimeout(function() {
+            if (targetAddress.toLowerCase().indexOf('https') != -1) {
+                $('#cke_104_select').val('https://');
+            }
+            $('#cke_107_textInput').val(targetAddress);
+            setTimeout(function() {
+                $('#cke_209_label').click();
+            }, 100);
+        }, 100);
+    }
+
     // May God have mercy on my soul for writing such nasty code; I'm working with what I've got.
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         if (request.alertMessage) {
@@ -20,6 +35,9 @@ if (!window.init) {
             switch(request.command) {
                 case 'toggle-timer':
                     toggleTimer();
+                    break;
+                case 'insert-link':
+                    insertLink();
                     break;
                 default:
                     break;
