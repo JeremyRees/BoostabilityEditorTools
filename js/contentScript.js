@@ -38,7 +38,7 @@ if (!window.init) {
             setTimeout(function() {
                 $('.cke_editor_content').eq(1).find('iframe').contents().find('body').focus();
                 setTimeout(function() {
-                    $('#cke_content').find('iframe').contents().find('body').focus();
+                    $('input[name="contentTags"]').focus();
                 }, 50);
             }, 50);
 
