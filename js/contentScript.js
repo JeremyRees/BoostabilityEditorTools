@@ -48,13 +48,13 @@ if (!window.init) {
 
         if (request.review) {
             var script = document.createElement('script');
-            script.textContent = `$('#cke_content').closest('.form-group').parent().find('img[alt="'+${request.imgAlt}+'"]').click().mouseover()`;
+            script.textContent = `$('label:contains("Content Rating")').parent().find('img[alt="'+${request.imgAlt}+'"]').click().mouseover()`;
             (document.head||document.documentElement).appendChild(script);
             script.remove();
 
-            $('.cke_editor_content').eq(1).find('iframe').contents().find('body').html('<p>'+request.review+'</p>');
+            $('label:contains("Reviewer Comments")').parent().find('iframe').contents().find('body').html('<p>'+request.review+'</p>');
             setTimeout(function() {
-                $('.cke_editor_content').eq(1).find('iframe').contents().find('body').focus();
+                $('label:contains("Reviewer Comments")').parent().find('iframe').contents().find('body').focus();
                 setTimeout(function() {
                     $('input[name="contentTags"]').focus();
                 }, 50);
