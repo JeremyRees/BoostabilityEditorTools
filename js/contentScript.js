@@ -11,14 +11,14 @@ if (!window.init) {
     function insertLink() {
         var targetAddress = $('strong:contains("Customer URL")').parent().find('span.externalLink').html();
 
-        $('#cke_59').get(0).click();
+        $('a.cke_button[title="Link"]').get(0).click();
         setTimeout(function() {
             if (targetAddress.toLowerCase().indexOf('https') != -1) {
-                $('#cke_104_select').val('https://');
+                $('label:contains("Protocol")').parent().find('select').val('https://');
             }
-            $('#cke_107_textInput').val(targetAddress);
+            $('label:contains("URL")').parent().find('input[type="text"]').val(targetAddress);
             setTimeout(function() {
-                $('#cke_209_label').click();
+                $('a.cke_dialog_ui_button[title="OK"]').get(0).click();
             }, 100);
         }, 100);
     }

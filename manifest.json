@@ -3,7 +3,7 @@
 
     "name": "Boostability Utilities",
     "description": "Improve article review throughput by automating part of the process.",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "minimum_chrome_version": "57",
 
     "icons": {
