@@ -1,1 +1,110 @@
-<!-- TODO -->
+<!DOCTYPE html>
+<head>
+    <title>Settings | Boostability Editor Tools</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="../css/settings.css" />
+    <script src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/settings.js"></script>
+</head>
+<body>
+    <div class="container h-100">
+        <h1>Settings</h1>
+        <h6 class="text-muted mb-0">Boostability Editor Tools</h6>
+        <h6 class="text-muted">an extension by Jeremy Rees</h6>
+
+        <hr>
+        <h3>Review code customization</h3>
+        <p>When you activate the extension—either by clicking the icon in the top-right corner of the browser or via the keyboard shortcut (Ctrl+Shift+A by default)—you are prompted for a review code.</p>
+        <p>The first character of this code indicates whether to rate the article three, four, or five stars. For a three or four star rating, the remaining characters identify which criteria to suggest for the writer to improve on.</p>
+        <p>For example, using the default options, the code "djl" would produce the following review: "Great work. Your article has been accepted at 4 stars. In the future, please focus on taking a creative approach and strengthening your authority and expertise."</p>
+        <p>You can use the table below to customize the keys used to construct the review for an article.</p>
+
+        <table class="table table-striped col-8" id="reviewCodeGrid">
+            <thead class="thead-inverse">
+                <tr>
+                    <th></th>
+                    <th>Three Stars <input type="text" id="threeStarChoice" class="singleChar ml-5" value="" /></th>
+                    <th>Four stars <input type="text" id="fourStarChoice" class="singleChar ml-5" value="" /></th>
+                    <th>Five stars <input type="text" id="fiveStarChoice" class="singleChar ml-5" value="" /></th>
+                </tr>
+            </thead>
+            <tr>
+                <th><input type="text" id="criteriaOneFlag" class="singleChar" value="" /> <span class="float-right">Improve on:</span></th>
+                <td>Examples</td>
+                <td>Creative Approach</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <th><input type="text" id="criteriaTwoFlag" class="singleChar" value="" /> <span class="float-right">Improve on:</span></th>
+                <td>Flow</td>
+                <td>Grammar</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <th><input type="text" id="criteriaThreeFlag" class="singleChar" value="" /> <span class="float-right">Improve on:</span></th>
+                <td>-</td>
+                <td>Authority/Expertise</td>
+                <td>-</td>
+            </tr>
+        </table>
+        <button type="button" class="btn btn-primary float-right" id="saveCode">Save</button>
+        <button type="button" class="btn btn-secondary float-right mr-3" id="resetCode">Reset</button>
+
+        <div class="clearfix"></div>
+        <p>You can use the field below to test using review codes to input a review:</p>
+        <input type="text" id="reviewTestIn" class="col-4" placeholder="Insert code and hit Enter" />
+        <textarea id="reviewTestOut" class="col-12 mt-3" placeholder="Your sample review will appear here"></textarea>
+
+        <hr>
+        <h3>Compliments</h3>
+        <p>You can also customize the compliments given at the start of your four- and five-star reviews. One of the comments below will be randomly selected for each review.</p>
+
+        <div id="complimentsGrid" class="row justify-content-around pt-5">
+            <table id="fourStarCompliments" class="gridColumn table table-striped col-5">
+                <thead class="columnHead thead-inverse"><tr><th>Four-star compliments</th></tr></thead>
+                <tr class="columnTail"><td>
+                    <input id="fourStarComplimentInput" class="col-8" placeholder="Add a compliment"></input><button class="add-button btn btn-secondary col-3 float-right" stars="four">Add</button>
+                </td></tr>
+            </table>
+            <table id="fiveStarCompliments" class="gridColumn table table-striped col-5">
+                <thead class="columnHead thead-inverse"><tr><th>Five-star compliments</th></tr></thead>
+                <tr class="columnTail"><td>
+                    <input id="fiveStarComplimentInput" class="col-8" placeholder="Add a compliment"></input><button class="add-button btn btn-secondary col-3 float-right" stars="five">Add</button>
+                </td></tr>
+            </table>
+        </div>
+
+        <hr>
+        <h3>Automation</h3>
+        <p>In the future, the extension will be able to automatically complete the task after entering a review comment. It will also be able to check for the target keyword and insert a link if it's found as soon as the page loads.</p>
+        <p>These features are coming soon. Once they are implemented, you will be able to enable or disable them here.</p>
+
+        <hr>
+        <h3>Keyboard shortcuts</h3>
+        <p>Many of the extension's features are accessed via keyboard shortcuts; the defaults are listed below. You can customize these shortcuts at "chrome://extensions/shortcuts"*. Just be careful that your customizations don't conflict with any <a href="https://support.google.com/chrome/answer/157179?hl=en">existing Chrome shortcuts</a>.</p>
+        <p class="text-muted">*Chrome doesn't allow linking directly to that page, but you can copy the address into a new tab to access it.</p>
+        <table class="table table-striped">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>Function</th>
+                    <th>Shortcut</th>
+                </tr>
+            </thead>
+            <tr>
+                <td>Open the review code prompt</td>
+                <td>Ctrl + Shift + A</td>
+            </tr>
+            <tr>
+                <td>Pause or resume the task timer</td>
+                <td>Ctrl + Shift + S</td>
+            </tr>
+            <tr>
+                <td>Insert the client link on the selected text</td>
+                <td>Ctrl + Shift + Z</td>
+            </tr>
+        </table>
+
+    </div>
+</body>

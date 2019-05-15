@@ -1,0 +1,23 @@
+body {
+    background-color: #3663af4d;
+}
+body .container {
+    background-color: white;
+    margin: 3%;
+    width: 94%;
+    padding: 2%;
+    border: 15px solid white;
+    border-radius: 15px;
+    box-shadow: 0px 0px 5px #999999;
+}
+hr {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+input.singleChar {
+    width: 2em;
+    text-align: center;
+}
+textarea#reviewTestOut {
+    height: 100px;
+}

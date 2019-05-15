@@ -1,9 +1,9 @@
 {
     "manifest_version": 2,
 
-    "name": "Boostability Utilities",
+    "name": "Boostability Editor Tools",
     "description": "Improve article review throughput by automating part of the process.",
-    "version": "0.3.2",
+    "version": "1.0",
     "minimum_chrome_version": "57",
 
     "icons": {
@@ -18,12 +18,13 @@
             "128": "img/boost128.png"
         },
         "default_popup": "html/popup.html",
-        "default_title": "Boostability Utilities"
+        "default_title": "Boostability Editor Tools"
     },
     "options_page": "html/settings.html",
 
     "permissions": [
         "tabs",
+        "storage",
         "activeTab",
         "*://launchpad.boostability.com/*"
     ],

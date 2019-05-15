@@ -1,9 +1,6 @@
 if (!window.init) {
     window.init = true;
 
-    $(document).ready(function() {
-    });
-
     function toggleTimer() {
         $('.help-block > button').click();
     }

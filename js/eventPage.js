@@ -1,21 +1,82 @@
+// Initializing, saving, and loading settings
+/////////////////////////////////////////////
+chrome.runtime.onInstalled.addListener(function() {
+    threeStarReviewChoice = 'f';
+    fourStarReviewChoice = 'd';
+    fiveStarReviewChoice = 's';
+
+    reviewCriteriaOneFlag = 'j';
+    reviewCriteriaTwoFlag = 'k';
+    reviewCriteriaThreeFlag = 'l';
+
+    fourStarCompliments = ["Good job.", "Good work.", "Great job.", "Great work."];
+    fiveStarCompliments = ["Superb work!", "Excellent work!", "Outstanding work!"];
+});
+
+chrome.runtime.onSuspend.addListener(function() {
+    chrome.storage.sync.set({
+        'bet_threeStarReviewChoice': threeStarReviewChoice,
+        'bet_fourStarReviewChoice': fourStarReviewChoice,
+        'bet_fiveStarReviewChoice': fiveStarReviewChoice,
+        'bet_reviewCriteriaOneFlag': reviewCriteriaOneFlag,
+        'bet_reviewCriteriaTwoFlag': reviewCriteriaTwoFlag,
+        'bet_reviewCriteriaThreeFlag': reviewCriteriaThreeFlag,
+        'bet_fourStarCompliments': fourStarCompliments,
+        'bet_fiveStarCompliments': fiveStarCompliments
+    });
+});
+
+chrome.runtime.onStartup.addListener(function() {
+    chrome.storage.sync.get([
+        'bet_threeStarReviewChoice', 'bet_fourStarReviewChoice', 'bet_fiveStarReviewChoice',
+        'bet_reviewCriteriaOneFlag', 'bet_reviewCriteriaTwoFlag', 'bet_reviewCriteriaThreeFlag',
+        'bet_fourStarCompliments', 'bet_fiveStarCompliments'
+    ], function(data) {
+        threeStarReviewChoice = data.bet_threeStarReviewChoice;
+        fourStarReviewChoice = data.bet_fourStarReviewChoice;
+        fiveStarReviewChoice = data.bet_fiveStarReviewChoice;
+
+        reviewCriteriaOneFlag = data.bet_reviewCriteriaOneFlag;
+        reviewCriteriaTwoFlag = data.bet_reviewCriteriaTwoFlag;
+        reviewCriteriaThreeFlag = data.bet_reviewCriteriaThreeFlag;
+
+        fourStarCompliments = data.bet_fourStarCompliments;
+        fiveStarCompliments = data.bet_fiveStarCompliments;
+    });
+});
+
+// For syncing data with the settings page
+function syncBackgroundPageReviewCode(reviewCodeSettings) {
+    threeStarReviewChoice = reviewCodeSettings.starFlags.three;
+    fourStarReviewChoice = reviewCodeSettings.starFlags.four;
+    fiveStarReviewChoice = reviewCodeSettings.starFlags.five;
+
+    reviewCriteriaOneFlag = reviewCodeSettings.criteriaFlags.one;
+    reviewCriteriaTwoFlag = reviewCodeSettings.criteriaFlags.two;
+    reviewCriteriaThreeFlag = reviewCodeSettings.criteriaFlags.three;
+}
+function syncBackgroundPageCompliments(compliments) {
+    fourStarCompliments = compliments.four;
+    fiveStarCompliments = compliments.five;
+}
+
+
 // Review message construction
 //////////////////////////////
 var THREE_STAR_REVIEW_BASE = "Thank you for your contribution. Your article has been accepted at 3 stars. For higher ratings in the future, please focus on improving your ";
 var THREE_STAR_REVIEW_ADD_ONE = "examples";
 var THREE_STAR_REVIEW_ADD_TWO = "flow";
 
-var FOUR_STAR_REVIEW_COMPLIMENTS = ["Good job", "Great job", "Good work", "Great work"];
-var FOUR_STAR_REVIEW_BASE = ". Your article has been accepted at 4 stars. In the future, please focus on ";
+var FOUR_STAR_REVIEW_BASE = " Your article has been accepted at 4 stars. In the future, please focus on ";
 var FOUR_STAR_REVIEW_ADD_ONE = "taking a creative approach";
 var FOUR_STAR_REVIEW_ADD_TWO = "proofreading";
 var FOUR_STAR_REVIEW_ADD_THREE = "strengthening your authority and expertise";
 
-var FIVE_STAR_REVIEW_COMPLIMENTS = ["Superb work", "Excellent work", "Outstanding work"];
-var FIVE_STAR_REVIEW_BASE = "! Your article has been accepted at 5 stars!";
+var FIVE_STAR_REVIEW_BASE = " Your article has been accepted at 5 stars!";
 
 function threeStarReview(code) {
-    var includeAddOne = code.indexOf('j') != -1;
-    var includeAddTwo = code.indexOf('k') != -1;
+    var includeAddOne = code.indexOf(reviewCriteriaOneFlag) != -1;
+    var includeAddTwo = code.indexOf(reviewCriteriaTwoFlag) != -1;
 
     var review = THREE_STAR_REVIEW_BASE;
     if (includeAddOne && includeAddTwo) {
@@ -32,10 +93,10 @@ function threeStarReview(code) {
 }
 
 function fourStarReview(code) {
-    var compliment = FOUR_STAR_REVIEW_COMPLIMENTS[Math.floor(Math.random() * FOUR_STAR_REVIEW_COMPLIMENTS.length)];
-    var includeAddOne = code.indexOf('j') != -1;
-    var includeAddTwo = code.indexOf('k') != -1;
-    var includeAddThree = code.indexOf('l') != -1;
+    var compliment = fourStarCompliments[Math.floor(Math.random() * fourStarCompliments.length)];
+    var includeAddOne = code.indexOf(reviewCriteriaOneFlag) != -1;
+    var includeAddTwo = code.indexOf(reviewCriteriaTwoFlag) != -1;
+    var includeAddThree = code.indexOf(reviewCriteriaThreeFlag) != -1;
 
     var review = compliment + FOUR_STAR_REVIEW_BASE;
     if (includeAddOne && includeAddTwo && includeAddThree) {
@@ -64,33 +125,45 @@ function fourStarReview(code) {
 }
 
 function fiveStarReview() {
-    var compliment = FIVE_STAR_REVIEW_COMPLIMENTS[Math.floor(Math.random() * FIVE_STAR_REVIEW_COMPLIMENTS.length)];
+    var compliment = fiveStarCompliments[Math.floor(Math.random() * fiveStarCompliments.length)];
     var review = compliment + FIVE_STAR_REVIEW_BASE;
     return review;
 }
 
 // Review code interpretation
 /////////////////////////////
-function inputReview(input) {
-    if (!validateInput(input)) return;
+function inputReview(input, returnData = false) {
+    input = input.toLowerCase();
+
+    var alertMessage = validateInput(input);
+    if (alertMessage) {
+        if (returnData) return {alertMessage: alertMessage};
+
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, {
+                alertMessage: alertMessage
+            });
+        });
+        return;
+    }
 
     var messageData;
     switch (input.charAt(0)) {
-        case 'f':
+        case threeStarReviewChoice:
             messageData = {
                 review: threeStarReview(input),
                 imgAlt: '3',
                 imgTitle: 'regular'
             };
             break;
-        case 'd':
+        case fourStarReviewChoice:
             messageData = {
                 review: fourStarReview(input),
                 imgAlt: '4',
                 imgTitle: 'good'
             };
             break;
-        case 's':
+        case fiveStarReviewChoice:
             messageData = {
                 review: fiveStarReview(),
                 imgAlt: '5',
@@ -101,6 +174,8 @@ function inputReview(input) {
             return;
     }
 
+    if (returnData) return messageData;
+
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         console.log(tabs);
         chrome.tabs.sendMessage(tabs[0].id, messageData, function(response) {
@@ -110,34 +185,24 @@ function inputReview(input) {
 }
 
 function validateInput(input) {
-    var alertMessage = '';
     switch(input.charAt(0)) {
-        case 'f':
-            if (input.indexOf('j') == -1 && input.indexOf('k') == -1) {
-                alertMessage = 'The given review code is invalid. A three-star review must include one or both of the flags j or k.';
+        case threeStarReviewChoice:
+            if (input.indexOf(reviewCriteriaOneFlag) == -1 && input.indexOf(reviewCriteriaTwoFlag) == -1) {
+                return 'The given review code is invalid. A three-star review must include one or both of the flags '+reviewCriteriaOneFlag+' or '+reviewCriteriaTwoFlag+'.';
             }
             break;
-        case 'd':
-            if (input.indexOf('j') == -1 && input.indexOf('k') == -1 && input.indexOf('l') == -1) {
-                alertMessage = 'The given review code is invalid. A four-star review must include one or all of the flags j, k, or l.';
+        case fourStarReviewChoice:
+            if (input.indexOf(reviewCriteriaOneFlag) == -1 && input.indexOf(reviewCriteriaTwoFlag) == -1 && input.indexOf(reviewCriteriaThreeFlag) == -1) {
+                return 'The given review code is invalid. A four-star review must include a combination of the flags '+reviewCriteriaOneFlag+', '+reviewCriteriaTwoFlag+', or '+reviewCriteriaThreeFlag+'.';
             }
             break;
-        case 's':
+        case fiveStarReviewChoice:
             break;
         default:
-            alertMessage = 'The given review code is invalid. The first character must be either f (3 stars), d (4 stars), or s (5 stars).';
+            return 'The given review code is invalid. The first character must be either '+threeStarReviewChoice+' (3 stars), '+fourStarReviewChoice+' (4 stars), or '+fiveStarReviewChoice+' (5 stars).';
             break;
     }
-
-    if (alertMessage) {
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            chrome.tabs.sendMessage(tabs[0].id, {
-                alertMessage: alertMessage
-            });
-        });
-        return false;
-    }
-    return true;
+    return null;
 }
 
 // Keyboard shortcuts
