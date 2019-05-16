@@ -11,6 +11,17 @@ chrome.runtime.onInstalled.addListener(function() {
 
     fourStarCompliments = ["Good job.", "Good work.", "Great job.", "Great work."];
     fiveStarCompliments = ["Superb work!", "Excellent work!", "Outstanding work!"];
+
+    chrome.storage.sync.set({
+        'bet_threeStarReviewChoice': threeStarReviewChoice,
+        'bet_fourStarReviewChoice': fourStarReviewChoice,
+        'bet_fiveStarReviewChoice': fiveStarReviewChoice,
+        'bet_reviewCriteriaOneFlag': reviewCriteriaOneFlag,
+        'bet_reviewCriteriaTwoFlag': reviewCriteriaTwoFlag,
+        'bet_reviewCriteriaThreeFlag': reviewCriteriaThreeFlag,
+        'bet_fourStarCompliments': fourStarCompliments,
+        'bet_fiveStarCompliments': fiveStarCompliments
+    });
 });
 
 chrome.runtime.onStartup.addListener(function() {
