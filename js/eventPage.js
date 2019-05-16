@@ -1,27 +1,29 @@
 // Initializing, saving, and loading settings
 /////////////////////////////////////////////
-chrome.runtime.onInstalled.addListener(function() {
-    threeStarReviewChoice = 'f';
-    fourStarReviewChoice = 'd';
-    fiveStarReviewChoice = 's';
+chrome.runtime.onInstalled.addListener(function(details) {
+    if (details.reason == "install") {
+        threeStarReviewChoice = 'f';
+        fourStarReviewChoice = 'd';
+        fiveStarReviewChoice = 's';
 
-    reviewCriteriaOneFlag = 'j';
-    reviewCriteriaTwoFlag = 'k';
-    reviewCriteriaThreeFlag = 'l';
+        reviewCriteriaOneFlag = 'j';
+        reviewCriteriaTwoFlag = 'k';
+        reviewCriteriaThreeFlag = 'l';
 
-    fourStarCompliments = ["Good job.", "Good work.", "Great job.", "Great work."];
-    fiveStarCompliments = ["Superb work!", "Excellent work!", "Outstanding work!"];
+        fourStarCompliments = ["Good job.", "Good work.", "Great job.", "Great work."];
+        fiveStarCompliments = ["Superb work!", "Excellent work!", "Outstanding work!"];
 
-    chrome.storage.sync.set({
-        'bet_threeStarReviewChoice': threeStarReviewChoice,
-        'bet_fourStarReviewChoice': fourStarReviewChoice,
-        'bet_fiveStarReviewChoice': fiveStarReviewChoice,
-        'bet_reviewCriteriaOneFlag': reviewCriteriaOneFlag,
-        'bet_reviewCriteriaTwoFlag': reviewCriteriaTwoFlag,
-        'bet_reviewCriteriaThreeFlag': reviewCriteriaThreeFlag,
-        'bet_fourStarCompliments': fourStarCompliments,
-        'bet_fiveStarCompliments': fiveStarCompliments
-    });
+        chrome.storage.sync.set({
+            'bet_threeStarReviewChoice': threeStarReviewChoice,
+            'bet_fourStarReviewChoice': fourStarReviewChoice,
+            'bet_fiveStarReviewChoice': fiveStarReviewChoice,
+            'bet_reviewCriteriaOneFlag': reviewCriteriaOneFlag,
+            'bet_reviewCriteriaTwoFlag': reviewCriteriaTwoFlag,
+            'bet_reviewCriteriaThreeFlag': reviewCriteriaThreeFlag,
+            'bet_fourStarCompliments': fourStarCompliments,
+            'bet_fiveStarCompliments': fiveStarCompliments
+        });
+    }
 });
 
 chrome.runtime.onStartup.addListener(function() {
