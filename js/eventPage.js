@@ -13,19 +13,6 @@ chrome.runtime.onInstalled.addListener(function() {
     fiveStarCompliments = ["Superb work!", "Excellent work!", "Outstanding work!"];
 });
 
-chrome.runtime.onSuspend.addListener(function() {
-    chrome.storage.sync.set({
-        'bet_threeStarReviewChoice': threeStarReviewChoice,
-        'bet_fourStarReviewChoice': fourStarReviewChoice,
-        'bet_fiveStarReviewChoice': fiveStarReviewChoice,
-        'bet_reviewCriteriaOneFlag': reviewCriteriaOneFlag,
-        'bet_reviewCriteriaTwoFlag': reviewCriteriaTwoFlag,
-        'bet_reviewCriteriaThreeFlag': reviewCriteriaThreeFlag,
-        'bet_fourStarCompliments': fourStarCompliments,
-        'bet_fiveStarCompliments': fiveStarCompliments
-    });
-});
-
 chrome.runtime.onStartup.addListener(function() {
     chrome.storage.sync.get([
         'bet_threeStarReviewChoice', 'bet_fourStarReviewChoice', 'bet_fiveStarReviewChoice',
@@ -54,10 +41,24 @@ function syncBackgroundPageReviewCode(reviewCodeSettings) {
     reviewCriteriaOneFlag = reviewCodeSettings.criteriaFlags.one;
     reviewCriteriaTwoFlag = reviewCodeSettings.criteriaFlags.two;
     reviewCriteriaThreeFlag = reviewCodeSettings.criteriaFlags.three;
+
+    chrome.storage.sync.set({
+        'bet_threeStarReviewChoice': threeStarReviewChoice,
+        'bet_fourStarReviewChoice': fourStarReviewChoice,
+        'bet_fiveStarReviewChoice': fiveStarReviewChoice,
+        'bet_reviewCriteriaOneFlag': reviewCriteriaOneFlag,
+        'bet_reviewCriteriaTwoFlag': reviewCriteriaTwoFlag,
+        'bet_reviewCriteriaThreeFlag': reviewCriteriaThreeFlag
+    });
 }
 function syncBackgroundPageCompliments(compliments) {
     fourStarCompliments = compliments.four;
     fiveStarCompliments = compliments.five;
+
+    chrome.storage.sync.set({
+        'bet_fourStarCompliments': fourStarCompliments,
+        'bet_fiveStarCompliments': fiveStarCompliments
+    });
 }
 
 

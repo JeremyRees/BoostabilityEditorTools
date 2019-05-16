@@ -3,7 +3,7 @@
 
     "name": "Boostability Editor Tools",
     "description": "Improve article review throughput by automating part of the process.",
-    "version": "1.0",
+    "version": "1.0.1",
     "minimum_chrome_version": "57",
 
     "icons": {
